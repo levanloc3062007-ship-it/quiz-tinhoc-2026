@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Tin học 2026</title>
+<style>
+body {font-family: Arial; background:#eef2f7; padding:20px;}
+.container {max-width:900px; margin:auto;}
+.question {background:#fff; padding:15px; margin-bottom:15px; border-radius:10px;}
+button {padding:10px 20px; font-size:16px;}
+.correct {color:green;}
+.wrong {color:red;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Quiz Tin học 2026</h1>
+<div id="quiz"></div>
+<button onclick="submitQuiz()">Nộp bài</button>
+<h2 id="result"></h2>
+</div>
+
+<script>
+let questions = [
+{q:"Thiết bị nào là bộ não của máy tính?",a:["RAM","ROM","CPU","Ổ cứng"],correct:"CPU"},
+{q:"Phím tắt copy là gì?",a:["Ctrl+X","Ctrl+C","Ctrl+V","Ctrl+Z"],correct:"Ctrl+C"}
+];
+
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
+questions = shuffle(questions);
+
+function loadQuiz(){
+let quiz=document.getElementById("quiz");
+quiz.innerHTML="";
+questions.forEach((q,i)=>{
+let answers=shuffle([...q.a]);
+let html=`<div class="question"><h3>Câu ${i+1}: ${q.q}</h3>`;
+answers.forEach(ans=>{
+html+=`<label><input type="radio" name="q${i}" value="${ans}"> ${ans}</label><br>`;
+});
+html+=`</div>`;
+quiz.innerHTML+=html;
+});
+}
+loadQuiz();
+
+function submitQuiz(){
+let score=0;
+questions.forEach((q,i)=>{
+let selected=document.querySelector(`input[name="q${i}"]:checked`);
+if(selected && selected.value===q.correct){score++;}
+});
+document.getElementById("result").innerText=`Bạn đúng ${score}/${questions.length} câu`;
+}
+</script>
+
+</body>
+</html>
